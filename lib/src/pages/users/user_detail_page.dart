@@ -21,37 +21,46 @@ class UserDetailPage extends ConsumerWidget {
       ),
       body: userDetail.when(
         data: (user) {
-          return ListView(
-            padding: const EdgeInsets.symmetric(
-              vertical: 40,
-              horizontal: 20,
+          return RefreshIndicator(
+            // onRefresh: () {
+            //   return ref.refresh(userDetailProvider(userId).future);
+            // },
+            onRefresh: () async {
+              return ref.refresh(userDetailProvider(userId));
+            },
+            child: ListView(
+              padding: const EdgeInsets.symmetric(
+                vertical: 40,
+                horizontal: 20,
+              ),
+              children: [
+                Text(
+                  user.name,
+                  style: Theme.of(context).textTheme.headlineMedium,
+                ),
+                const Divider(),
+                UserInfo(
+                  iconData: Icons.account_circle,
+                  userInfo: user.username,
+                ),
+                const SizedBox(height: 10),
+                UserInfo(
+                  iconData: Icons.email_rounded,
+                  userInfo: user.email,
+                ),
+                const SizedBox(height: 10),
+                UserInfo(
+                  iconData: Icons.account_circle,
+                  userInfo: user.username,
+                ),
+                const SizedBox(height: 10),
+                UserInfo(
+                    iconData: Icons.phone_enabled_rounded,
+                    userInfo: user.phone),
+                const SizedBox(height: 10),
+                UserInfo(iconData: Icons.web_rounded, userInfo: user.website),
+              ],
             ),
-            children: [
-              Text(
-                user.name,
-                style: Theme.of(context).textTheme.headlineMedium,
-              ),
-              const Divider(),
-              UserInfo(
-                iconData: Icons.account_circle,
-                userInfo: user.username,
-              ),
-              const SizedBox(height: 10),
-              UserInfo(
-                iconData: Icons.email_rounded,
-                userInfo: user.email,
-              ),
-              const SizedBox(height: 10),
-              UserInfo(
-                iconData: Icons.account_circle,
-                userInfo: user.username,
-              ),
-              const SizedBox(height: 10),
-              UserInfo(
-                  iconData: Icons.phone_enabled_rounded, userInfo: user.phone),
-              const SizedBox(height: 10),
-              UserInfo(iconData: Icons.web_rounded, userInfo: user.website),
-            ],
           );
         },
         error: (err, st) {
